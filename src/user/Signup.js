@@ -73,7 +73,6 @@ class Signup extends Component {
                         <label className="text-muted">Email</label>
                         <input onChange={this.handleChange("email")} type="email" className="form-control" value={this.state.email}></input>
                     </div>
-
                     <div className="form-group">
                         <label className="text-muted">Password</label>
                         <input onChange={this.handleChange("password")} type="password" className="form-control" value={this.state.password}></input>
