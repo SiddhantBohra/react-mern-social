@@ -58,7 +58,7 @@ class Signup extends Component {
         return (
             <div className="container">
                 <h2 className="mt-5 mb-5">Signup</h2>
-                <div className = "alert alert-primary" style = {{display : this.state.error ? "" : "none"}}>
+                <div className = "alert alert-danger" style = {{display : this.state.error ? "" : "none"}}>
                 {this.state.error}
                 </div>
                 <div className = "alert alert-info" style = {{display :this.state.open ?"" : "none" }}>
