@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 class Signin extends Component {
     state = {
         email: "",
         password: "",
         error: "",
-        redirectToReferer: false
+        redirectToReferer: false,
+        loading: false
     }
     handleChange = name => event => {
         this.setState({
@@ -16,13 +17,14 @@ class Signin extends Component {
         })
     }
     authenticate = (jwt, next) => {
-        if (typeof(window)!= "undefined") {
+        if (typeof (window) != "undefined") {
             localStorage.setItem("jwt", JSON.stringify(jwt))
             next()
         }
     }
     clickSubmit = event => {
         event.preventDefault()
+        this.setState({loading : true})
         const { email, password, error } = this.state
         let user = {
             email,
@@ -32,13 +34,13 @@ class Signin extends Component {
         console.log(user)
         this.signin(user).then(data => {
             if (data.error) {
-                this.setState({ error: data.error })
+                this.setState({ error: data.error, loading: false })
             }
             else {
-                this.authenticate(data ,() => {
+                this.authenticate(data, () => {
                     console.log(data)
                     this.setState({
-                        redirectToReferer : true
+                        redirectToReferer: true
                     })
                 })
             }
@@ -61,9 +63,8 @@ class Signin extends Component {
     }
     render() {
 
-        if(this.state.redirectToReferer)
-        {
-            return <Redirect to = "/" />
+        if (this.state.redirectToReferer) {
+            return <Redirect to="/" />
         }
 
         return (
@@ -72,6 +73,14 @@ class Signin extends Component {
                 <div className="alert alert-danger" style={{ display: this.state.error ? "" : "none" }}>
                     {this.state.error}
                 </div>
+                {this.state.loading ? (
+                    <div className = "jumbotron text-center">
+                        <h2>Loading...</h2>
+                    </div>
+                ) : (
+                    ""
+                )
+                }
                 <div className="alert alert-info" style={{ display: this.state.open ? "" : "none" }}>
                     Sign in Successsful.
                 </div>
